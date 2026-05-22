@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
 <title>Comparativo Con BIM vs Sin BIM — Estudio BID</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -16,6 +16,12 @@
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { background: var(--bg); color: var(--text); font-family: 'Inter', system-ui, sans-serif; padding: 24px 20px; min-height: 100vh; }
+
+  /* === CONTENEDOR FIJO === */
+  .wrapper { max-width: 1100px; min-width: 800px; margin: 0 auto; }
+  .chart-container { position: relative; width: 100%; height: 340px; }
+  .chart-container.radar { height: 380px; }
+
   .mono { font-family: 'JetBrains Mono', monospace; }
   .header { text-align: center; margin-bottom: 28px; }
   .header .tag { color: var(--accent); font-size: 11px; text-transform: uppercase; letter-spacing: 2px; }
@@ -71,10 +77,10 @@
   td.diff-val.neutral { color: var(--muted); }
 
   .footer { color: var(--muted); font-size: 10px; text-align: center; margin-top: 20px; opacity: 0.6; }
-  canvas { max-width: 100%; }
 </style>
 </head>
 <body>
+<div class="wrapper">
 
 <!-- Header -->
 <div class="header">
@@ -121,10 +127,10 @@
 
 <!-- Tabs -->
 <div class="tabs">
-  <button class="tab active" onclick="switchTab('plazos')">Plazos</button>
-  <button class="tab" onclick="switchTab('kpi')">KPIs</button>
-  <button class="tab" onclick="switchTab('radar')">Madurez BIM</button>
-  <button class="tab" onclick="switchTab('iteraciones')">Iteraciones</button>
+  <button class="tab active" onclick="switchTab('plazos', this)">Plazos</button>
+  <button class="tab" onclick="switchTab('kpi', this)">KPIs</button>
+  <button class="tab" onclick="switchTab('radar', this)">Madurez BIM</button>
+  <button class="tab" onclick="switchTab('iteraciones', this)">Iteraciones</button>
 </div>
 
 <!-- Chart Panel -->
@@ -133,13 +139,13 @@
   <div id="tab-plazos" class="tab-content active">
     <h3>Comparativo de Plazos (días corridos)</h3>
     <p class="desc">El proyecto con BIM redujo la desviación de plazo en 47 puntos porcentuales respecto al caso sin BIM</p>
-    <canvas id="chartPlazos" height="320"></canvas>
+    <div class="chart-container"><canvas id="chartPlazos"></canvas></div>
   </div>
 
   <div id="tab-kpi" class="tab-content">
     <h3>Indicadores de Desempeño</h3>
     <p class="desc">Desviación porcentual de plazo y ratio de ejecución</p>
-    <canvas id="chartKPI" height="320"></canvas>
+    <div class="chart-container"><canvas id="chartKPI"></canvas></div>
     <div class="info-box accent">
       <p><strong class="accent">Nota sobre Costo/m²:</strong> Los proyectos se ejecutaron en períodos distintos (2013-2016 vs 2023-2025), por lo que la comparación de costos absolutos no es directa. La diferencia de costo/m² refleja inflación, normativa actualizada y mayor estándar de equipamiento, no necesariamente ineficiencia.</p>
     </div>
@@ -148,14 +154,14 @@
   <div id="tab-radar" class="tab-content">
     <h3>Nivel de Madurez BIM Comparado</h3>
     <p class="desc">Evaluación cualitativa de capacidades según metodología aplicada</p>
-    <canvas id="chartRadar" height="360"></canvas>
+    <div class="chart-container radar"><canvas id="chartRadar"></canvas></div>
   </div>
 
   <div id="tab-iteraciones" class="tab-content">
     <h3>Iteraciones del Modelo BIM</h3>
     <p class="desc">I<sub>iter</sub> = V<sub>construcción</sub> / V<sub>diseño</sub> = 20 / 10 = <strong style="color:var(--bim)">2.0</strong></p>
     <p class="desc" style="margin-top:4px">El modelo duplicó sus iteraciones en construcción vs diseño. Sin BIM, no existe registro de iteraciones.</p>
-    <canvas id="chartIter" height="320"></canvas>
+    <div class="chart-container"><canvas id="chartIter"></canvas></div>
     <div class="info-box blue">
       <p><strong class="blue">Lectura del KPI:</strong> Cada iteración en construcción representa un ciclo completo de recepción de modelo → federación → detección de interferencias → observaciones → corrección por el especialista. Sin BIM, estos problemas se detectan en terreno como RFI y órdenes de cambio.</p>
     </div>
@@ -190,6 +196,8 @@
 
 <p class="footer">Fuente: Ficha de Documentación BIM Lab Salud Chile · Estudio BID 2025 · Datos: Coordinación BIM Métrico BIM Ltda.</p>
 
+</div><!-- /wrapper -->
+
 <script>
 const BIM = '#0ea5e9', NOBIM = '#f97316', GRID = '#334155', MUTED = '#94a3b8';
 
@@ -200,10 +208,11 @@ Chart.defaults.font.size = 12;
 Chart.defaults.plugins.legend.labels.usePointStyle = true;
 Chart.defaults.plugins.legend.labels.pointStyle = 'rectRounded';
 
+const CHART_OPTS = { responsive: true, maintainAspectRatio: false };
+
 const charts = {};
 
 function createCharts() {
-  // Plazos
   charts.plazos = new Chart(document.getElementById('chartPlazos'), {
     type: 'bar',
     data: {
@@ -213,14 +222,12 @@ function createCharts() {
         { label: 'Sin BIM', data: [420, 978, 558], backgroundColor: NOBIM, borderRadius: 6 },
       ]
     },
-    options: {
-      responsive: true,
+    options: { ...CHART_OPTS,
       plugins: { tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': ' + ctx.parsed.y.toLocaleString('es-CL') + ' días' } } },
       scales: { y: { beginAtZero: true, grid: { color: GRID } }, x: { grid: { display: false } } }
     }
   });
 
-  // KPI
   charts.kpi = new Chart(document.getElementById('chartKPI'), {
     type: 'bar',
     data: {
@@ -230,13 +237,11 @@ function createCharts() {
         { label: 'Sin BIM', data: [132.9, 12.5], backgroundColor: NOBIM, borderRadius: 6 },
       ]
     },
-    options: {
-      responsive: true,
+    options: { ...CHART_OPTS,
       scales: { y: { beginAtZero: true, grid: { color: GRID } }, x: { grid: { display: false } } }
     }
   });
 
-  // Radar
   charts.radar = new Chart(document.getElementById('chartRadar'), {
     type: 'radar',
     data: {
@@ -246,13 +251,11 @@ function createCharts() {
         { label: 'Sin BIM', data: [35, 15, 25, 20, 5, 0], borderColor: NOBIM, backgroundColor: NOBIM + '25', pointBackgroundColor: NOBIM, borderWidth: 2 },
       ]
     },
-    options: {
-      responsive: true,
+    options: { ...CHART_OPTS,
       scales: { r: { beginAtZero: true, max: 100, ticks: { stepSize: 25, color: MUTED, backdropColor: 'transparent' }, grid: { color: GRID }, pointLabels: { color: MUTED, font: { size: 11 } }, angleLines: { color: GRID } } }
     }
   });
 
-  // Iteraciones
   charts.iter = new Chart(document.getElementById('chartIter'), {
     type: 'bar',
     data: {
@@ -262,18 +265,17 @@ function createCharts() {
         { label: 'Sin BIM', data: [0, 0, 0], backgroundColor: NOBIM, borderRadius: 6 },
       ]
     },
-    options: {
-      responsive: true,
+    options: { ...CHART_OPTS,
       scales: { y: { beginAtZero: true, grid: { color: GRID } }, x: { grid: { display: false } } }
     }
   });
 }
 
-function switchTab(id) {
+function switchTab(id, btn) {
   document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
   document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
   document.getElementById('tab-' + id).classList.add('active');
-  event.target.classList.add('active');
+  btn.classList.add('active');
 }
 
 createCharts();

@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
 <title>Maduración del Modelo BIM — BIM 360</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -17,16 +17,20 @@
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { background: var(--bg); color: var(--text); font-family: 'Inter', system-ui, sans-serif; padding: 24px 20px; min-height: 100vh; }
+
+  /* === CONTENEDOR FIJO === */
+  .wrapper { max-width: 1100px; min-width: 800px; margin: 0 auto; }
+  .chart-container { position: relative; width: 100%; height: 340px; }
+  .chart-container.tall { height: 380px; }
+
   .mono { font-family: 'JetBrains Mono', monospace; }
 
-  /* Header */
   .header { text-align: center; margin-bottom: 24px; }
   .header .pill { display: inline-block; padding: 4px 14px; background: rgba(139,92,246,0.15); border-radius: 20px; margin-bottom: 8px; }
   .header .pill span { color: var(--accent); font-size: 11px; text-transform: uppercase; letter-spacing: 2px; }
   .header h1 { font-size: 24px; font-weight: 700; margin: 8px 0 4px; letter-spacing: -0.5px; }
   .header .sub { color: var(--muted); font-size: 13px; }
 
-  /* Metric boxes */
   .metric-row { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 24px; }
   .metric-box { background: var(--card); border-radius: 12px; padding: 18px 20px; border: 1px solid var(--border); flex: 1 1 160px; min-width: 150px; text-align: center; }
   .metric-box .label { color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: 1px; }
@@ -34,26 +38,22 @@
   .metric-box .value .unit { font-size: 16px; font-weight: 400; }
   .metric-box .sub { color: var(--muted); font-size: 11px; }
 
-  /* Tabs */
   .tabs { display: flex; gap: 4px; margin-bottom: 20px; border-bottom: 1px solid var(--border); }
   .tab { background: transparent; color: var(--muted); border: none; border-bottom: 2px solid transparent; padding: 10px 16px; font-size: 13px; font-weight: 400; cursor: pointer; border-radius: 8px 8px 0 0; transition: all 0.2s; font-family: inherit; }
   .tab.active { background: var(--card); color: var(--text); border-bottom-color: var(--const); font-weight: 600; }
   .tab:hover { color: var(--text); }
 
-  /* Panel */
   .panel { background: var(--card); border-radius: 12px; border: 1px solid var(--border); padding: 24px; }
   .panel h3 { font-size: 16px; font-weight: 600; margin-bottom: 6px; }
   .panel .desc { color: var(--muted); font-size: 12px; margin-bottom: 20px; }
   .tab-content { display: none; }
   .tab-content.active { display: block; }
 
-  /* Legend custom */
   .legend { display: flex; justify-content: center; gap: 24px; margin-top: 12px; }
   .legend-item { display: flex; align-items: center; gap: 6px; }
   .legend-dot { font-size: 16px; }
   .legend-label { color: var(--muted); font-size: 12px; }
 
-  /* Info boxes */
   .info-box { margin-top: 20px; padding: 14px 18px; border-radius: 8px; }
   .info-box p { color: var(--muted); font-size: 12px; line-height: 1.6; }
   .info-box.green { background: rgba(34,197,94,0.08); border: 1px solid rgba(34,197,94,0.2); }
@@ -65,44 +65,39 @@
   .info-box.yellow { background: rgba(251,191,36,0.08); border: 1px solid rgba(251,191,36,0.2); }
   .info-box.yellow strong { color: var(--warn); }
 
-  /* Workflow */
-  .workflow { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 0; margin-bottom: 24px; }
-  .wf-step { text-align: center; padding: 16px 14px; border-radius: 12px; min-width: 110px; }
+  .workflow { display: flex; align-items: center; justify-content: center; flex-wrap: nowrap; gap: 0; margin-bottom: 24px; }
+  .wf-step { text-align: center; padding: 16px 14px; border-radius: 12px; min-width: 110px; width: 140px; }
   .wf-step .icon { font-size: 28px; margin-bottom: 6px; }
   .wf-step .name { color: var(--text); font-size: 12px; font-weight: 600; white-space: pre-line; line-height: 1.3; }
   .wf-step .detail { color: var(--muted); font-size: 10px; margin-top: 4px; white-space: pre-line; line-height: 1.3; }
-  .wf-arrow { color: var(--muted); font-size: 20px; padding: 0 6px; }
+  .wf-arrow { color: var(--muted); font-size: 20px; padding: 0 6px; flex-shrink: 0; }
 
-  /* Phase cards */
-  .phase-row { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 20px; }
+  .phase-row { display: flex; gap: 16px; flex-wrap: nowrap; margin-bottom: 20px; }
   .phase-card { flex: 1; min-width: 200px; padding: 16px 20px; border-radius: 10px; }
   .phase-card .phase-label { font-size: 12px; font-weight: 600; margin-bottom: 4px; }
   .phase-card .phase-value { font-size: 28px; font-weight: 700; margin-bottom: 4px; font-family: 'JetBrains Mono', monospace; }
   .phase-card .phase-value .sm { font-size: 14px; font-weight: 400; }
   .phase-card .phase-sub { color: var(--muted); font-size: 11px; }
 
-  /* Proportion bar */
   .prop-bar { display: flex; border-radius: 8px; overflow: hidden; height: 40px; margin-top: 24px; }
   .prop-segment { display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; color: var(--bg); }
 
-  /* Formula */
   .formulas { display: flex; gap: 40px; flex-wrap: wrap; margin-top: 20px; }
   .formula-block .formula-title { color: var(--accent); font-size: 12px; font-weight: 600; margin-bottom: 4px; }
   .formula-block .formula-expr { color: var(--text); font-size: 14px; font-family: 'JetBrains Mono', monospace; }
   .formula-block .formula-note { color: var(--muted); font-size: 11px; margin-top: 4px; }
 
-  /* Impact boxes */
-  .impact-row { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 20px; }
+  .impact-row { display: flex; gap: 16px; flex-wrap: nowrap; margin-top: 20px; }
   .impact-box { flex: 1; min-width: 200px; padding: 16px 20px; border-radius: 10px; }
   .impact-box .impact-label { font-size: 12px; font-weight: 600; margin-bottom: 4px; }
   .impact-box .impact-value { font-size: 22px; font-weight: 700; margin-bottom: 4px; font-family: 'JetBrains Mono', monospace; color: var(--text); }
   .impact-box .impact-sub { color: var(--muted); font-size: 11px; }
 
   .footer { color: var(--muted); font-size: 10px; text-align: center; margin-top: 20px; opacity: 0.6; }
-  canvas { max-width: 100%; }
 </style>
 </head>
 <body>
+<div class="wrapper">
 
 <!-- Header -->
 <div class="header">
@@ -135,7 +130,7 @@
   <div id="tab-lifecycle" class="tab-content active">
     <h3>Curva de Maduración del Modelo — Ciclo de Vida Completo</h3>
     <p class="desc">30 publicaciones acumuladas en BIM 360: el modelo no murió en diseño, evolucionó hasta As-Built</p>
-    <canvas id="chartLifecycle" height="360"></canvas>
+    <div class="chart-container tall"><canvas id="chartLifecycle"></canvas></div>
     <div class="legend">
       <div class="legend-item"><span class="legend-dot" style="color:var(--design)">●</span><span class="legend-label">Diseño (V1–V10)</span></div>
       <div class="legend-item"><span class="legend-dot" style="color:var(--const)">●</span><span class="legend-label">Construcción (V11–V29)</span></div>
@@ -150,7 +145,7 @@
   <div id="tab-phases" class="tab-content">
     <h3>Distribución de Iteraciones por Fase</h3>
     <p class="desc">El 66.7% de las iteraciones del modelo ocurrieron durante la construcción</p>
-    <canvas id="chartPhases" height="300"></canvas>
+    <div class="chart-container"><canvas id="chartPhases"></canvas></div>
 
     <p style="color:var(--muted); font-size:12px; margin-top:24px; margin-bottom:8px;">Proporción del ciclo de vida del modelo</p>
     <div class="prop-bar">
@@ -229,7 +224,7 @@ modifica y reenvía</p>
   <div id="tab-impact" class="tab-content">
     <h3>Impacto de la Iteración: Oficina vs Terreno</h3>
     <p class="desc">Estimación del tiempo de resolución de problemas detectados en coordinación BIM vs descubiertos en obra</p>
-    <canvas id="chartImpact" height="300"></canvas>
+    <div class="chart-container"><canvas id="chartImpact"></canvas></div>
 
     <div class="impact-row">
       <div class="impact-box" style="background:rgba(249,115,22,0.07); border:1px solid rgba(249,115,22,0.19);">
@@ -253,6 +248,8 @@ modifica y reenvía</p>
 
 <p class="footer">Fuente: Coordinación BIM Métrico BIM Ltda. · Lab. Salud Pública Tarapacá · Estudio BID 2025</p>
 
+</div><!-- /wrapper -->
+
 <script>
 const DESIGN = '#a78bfa', CONST = '#0ea5e9', ASBUILT = '#22c55e', ORANGE = '#f97316';
 const GRID = '#334155', MUTED = '#94a3b8';
@@ -263,10 +260,12 @@ Chart.defaults.font.family = "'Inter', system-ui, sans-serif";
 Chart.defaults.font.size = 12;
 Chart.defaults.plugins.legend.labels.usePointStyle = true;
 
+const CHART_OPTS = { responsive: true, maintainAspectRatio: false };
+
 const charts = {};
 
 function createCharts() {
-  // Lifecycle - line chart with colored dots
+  // Lifecycle
   const labels = Array.from({length:30}, (_,i) => 'V'+(i+1));
   const cumData = Array.from({length:30}, (_,i) => i+1);
   const pointColors = labels.map((_,i) => i < 10 ? DESIGN : i === 29 ? ASBUILT : CONST);
@@ -286,19 +285,12 @@ function createCharts() {
         pointBorderWidth: 2,
         pointRadius: pointRadius,
         pointHoverRadius: 8,
-        fill: {
-          target: 'origin',
-          above: 'rgba(167,139,250,0.1)',
-        },
+        fill: { target: 'origin', above: 'rgba(167,139,250,0.1)' },
         tension: 0.1,
       }]
     },
-    options: {
-      responsive: true,
-      plugins: {
-        legend: { display: false },
-        tooltip: { callbacks: { label: ctx => 'Versión ' + ctx.label + ' — Acumulado: ' + ctx.parsed.y } }
-      },
+    options: { ...CHART_OPTS,
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => 'Versión ' + ctx.label + ' — Acumulado: ' + ctx.parsed.y } } },
       scales: {
         y: { beginAtZero: true, title: { display: true, text: 'Publicaciones acumuladas', color: MUTED }, grid: { color: GRID } },
         x: { grid: { display: false }, ticks: { maxTicksLimit: 10 } }
@@ -311,16 +303,9 @@ function createCharts() {
     type: 'bar',
     data: {
       labels: ['Diseño', 'Construcción'],
-      datasets: [{
-        label: 'Iteraciones',
-        data: [10, 20],
-        backgroundColor: [DESIGN, CONST],
-        borderRadius: 8,
-        barThickness: 80,
-      }]
+      datasets: [{ label: 'Iteraciones', data: [10, 20], backgroundColor: [DESIGN, CONST], borderRadius: 8, barThickness: 80 }]
     },
-    options: {
-      responsive: true,
+    options: { ...CHART_OPTS,
       plugins: { legend: { display: false } },
       scales: { y: { beginAtZero: true, grid: { color: GRID } }, x: { grid: { display: false } } }
     }
@@ -336,8 +321,7 @@ function createCharts() {
         { label: 'Sin BIM (días)', data: [45, 60, 90], backgroundColor: ORANGE, borderRadius: 6 },
       ]
     },
-    options: {
-      responsive: true,
+    options: { ...CHART_OPTS,
       scales: {
         y: { beginAtZero: true, title: { display: true, text: 'Días estimados resolución', color: MUTED }, grid: { color: GRID } },
         x: { grid: { display: false } }
