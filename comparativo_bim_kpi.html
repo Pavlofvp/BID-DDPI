@@ -16,12 +16,9 @@
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { background: var(--bg); color: var(--text); font-family: 'Inter', system-ui, sans-serif; padding: 24px 20px; min-height: 100vh; }
-
-  /* === CONTENEDOR FIJO === */
   .wrapper { max-width: 1100px; min-width: 800px; margin: 0 auto; }
   .chart-container { position: relative; width: 100%; height: 340px; }
   .chart-container.radar { height: 380px; }
-
   .mono { font-family: 'JetBrains Mono', monospace; }
   .header { text-align: center; margin-bottom: 28px; }
   .header .tag { color: var(--accent); font-size: 11px; text-transform: uppercase; letter-spacing: 2px; }
@@ -29,9 +26,8 @@
   .header h1 .bim { color: var(--bim); }
   .header h1 .nobim { color: var(--nobim); }
   .header .sub { color: var(--muted); font-size: 13px; }
-
   .kpi-row { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 24px; }
-  .kpi-card { background: var(--card); border-radius: 12px; padding: 20px 22px; border: 1px solid var(--border); flex: 1 1 220px; min-width: 220px; }
+  .kpi-card { background: var(--card); border-radius: 12px; padding: 20px 22px; border: 1px solid var(--border); flex: 1 1 200px; min-width: 200px; }
   .kpi-card .label { color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: 1px; }
   .kpi-card .values { display: flex; gap: 20px; margin-top: 12px; align-items: baseline; }
   .kpi-card .val { font-size: 28px; font-weight: 700; }
@@ -39,25 +35,23 @@
   .kpi-card .val-label { color: var(--muted); font-size: 11px; margin-top: 2px; }
   .kpi-card .badge { margin-top: 10px; padding: 4px 10px; background: rgba(34,197,94,0.12); border-radius: 6px; display: inline-block; color: var(--green); font-size: 12px; font-weight: 600; }
   .kpi-card .note { color: var(--muted); font-size: 11px; margin-top: 8px; }
-
   .tabs { display: flex; gap: 4px; margin-bottom: 20px; border-bottom: 1px solid var(--border); }
   .tab { background: transparent; color: var(--muted); border: none; border-bottom: 2px solid transparent; padding: 10px 18px; font-size: 13px; font-weight: 400; cursor: pointer; border-radius: 8px 8px 0 0; transition: all 0.2s; font-family: inherit; }
   .tab.active { background: var(--card); color: var(--text); border-bottom-color: var(--bim); font-weight: 600; }
   .tab:hover { color: var(--text); }
-
   .chart-panel { background: var(--card); border-radius: 12px; border: 1px solid var(--border); padding: 24px; }
   .chart-panel h3 { font-size: 16px; font-weight: 600; margin-bottom: 6px; }
   .chart-panel .desc { color: var(--muted); font-size: 12px; margin-bottom: 20px; }
   .tab-content { display: none; }
   .tab-content.active { display: block; }
-
   .info-box { margin-top: 16px; padding: 12px 16px; border-radius: 8px; }
   .info-box.accent { background: rgba(139,92,246,0.08); border: 1px solid rgba(139,92,246,0.2); }
   .info-box.blue { background: rgba(14,165,233,0.08); border: 1px solid rgba(14,165,233,0.2); }
+  .info-box.green { background: rgba(34,197,94,0.08); border: 1px solid rgba(34,197,94,0.2); }
   .info-box p { color: var(--muted); font-size: 12px; line-height: 1.6; }
   .info-box strong.accent { color: var(--accent); }
   .info-box strong.blue { color: var(--bim); }
-
+  .info-box strong.green { color: var(--green); }
   .summary { background: var(--card); border-radius: 12px; border: 1px solid var(--border); padding: 24px; margin-top: 16px; }
   .summary h3 { font-size: 16px; font-weight: 600; margin-bottom: 16px; }
   table { width: 100%; border-collapse: collapse; font-size: 13px; }
@@ -75,53 +69,59 @@
   td.diff-val { text-align: center; font-weight: 600; font-size: 12px; }
   td.diff-val.positive { color: var(--green); }
   td.diff-val.neutral { color: var(--muted); }
-
   .footer { color: var(--muted); font-size: 10px; text-align: center; margin-top: 20px; opacity: 0.6; }
 </style>
 </head>
 <body>
 <div class="wrapper">
 
-<!-- Header -->
 <div class="header">
   <p class="tag">Estudio BID · Infraestructura Social</p>
   <h1>Comparativo <span class="bim">Con BIM</span> vs <span class="nobim">Sin BIM</span></h1>
-  <p class="sub">Lab. Salud Pública Tarapacá (BIM) vs Lab. Salud Pública Arica (Tradicional)</p>
+  <p class="sub">Lab. Salud Pública Iquique (BIM) vs Lab. Salud Pública Arica (Tradicional)</p>
 </div>
 
-<!-- KPI Cards -->
+<!-- KPI Cards — UPDATED v2 -->
 <div class="kpi-row">
   <div class="kpi-card">
     <p class="label">Desviación de Plazo</p>
     <div class="values">
-      <div><p class="val mono" style="color:var(--bim)">85.7<span class="unit">%</span></p><p class="val-label">Con BIM</p></div>
-      <div><p class="val mono" style="color:var(--nobim)">132.9<span class="unit">%</span></p><p class="val-label">Sin BIM</p></div>
+      <div><p class="val mono" style="color:var(--bim)">86<span class="unit">%</span></p><p class="val-label">Con BIM</p></div>
+      <div><p class="val mono" style="color:var(--nobim)">118<span class="unit">%</span></p><p class="val-label">Sin BIM</p></div>
     </div>
-    <div class="badge">▼ 47.2 puntos menos con BIM</div>
+    <div class="badge">▼ 32 puntos menos con BIM</div>
   </div>
   <div class="kpi-card">
     <p class="label">Ratio Plazo Real/Contrato</p>
     <div class="values">
       <div><p class="val mono" style="color:var(--bim)">1.86<span class="unit">x</span></p><p class="val-label">Con BIM</p></div>
-      <div><p class="val mono" style="color:var(--nobim)">2.33<span class="unit">x</span></p><p class="val-label">Sin BIM</p></div>
+      <div><p class="val mono" style="color:var(--nobim)">2.18<span class="unit">x</span></p><p class="val-label">Sin BIM</p></div>
     </div>
-    <div class="badge">▼ 0.47x menos con BIM</div>
+    <div class="badge">▼ 0.32x menos con BIM</div>
   </div>
   <div class="kpi-card">
-    <p class="label">Días Adicionales</p>
+    <p class="label">Aumento de Costos</p>
     <div class="values">
-      <div><p class="val mono" style="color:var(--bim)">317<span class="unit"> días</span></p><p class="val-label">Con BIM</p></div>
-      <div><p class="val mono" style="color:var(--nobim)">558<span class="unit"> días</span></p><p class="val-label">Sin BIM</p></div>
+      <div><p class="val mono" style="color:var(--bim)">14<span class="unit">%</span></p><p class="val-label">Con BIM</p></div>
+      <div><p class="val mono" style="color:var(--nobim)">1<span class="unit">%</span></p><p class="val-label">Sin BIM</p></div>
     </div>
-    <div class="badge">▼ 241 días menos con BIM</div>
+    <p class="note">Arica sacrificó calidad para no aumentar costos</p>
   </div>
   <div class="kpi-card">
-    <p class="label">Índice Iteración Modelo</p>
+    <p class="label">RFI con Aumento $</p>
     <div class="values">
-      <div><p class="val mono" style="color:var(--bim)">2.0</p><p class="val-label">Con BIM</p></div>
+      <div><p class="val mono" style="color:var(--bim)">31.1<span class="unit">%</span></p><p class="val-label">Con BIM</p></div>
+      <div><p class="val mono" style="color:var(--nobim)">98<span class="unit">%</span></p><p class="val-label">Sin BIM</p></div>
+    </div>
+    <div class="badge">▼ 67 pp menos con BIM</div>
+  </div>
+  <div class="kpi-card">
+    <p class="label">Índice Maduración Modelo</p>
+    <div class="values">
+      <div><p class="val mono" style="color:var(--bim)">3.0</p><p class="val-label">Con BIM</p></div>
       <div><p class="val mono" style="color:var(--nobim)">0</p><p class="val-label">Sin BIM</p></div>
     </div>
-    <p class="note">I_iter = V_construcción / V_diseño</p>
+    <p class="note">I_iter = (V_diseño + V_const) / V_diseño</p>
   </div>
 </div>
 
@@ -130,24 +130,24 @@
   <button class="tab active" onclick="switchTab('plazos', this)">Plazos</button>
   <button class="tab" onclick="switchTab('kpi', this)">KPIs</button>
   <button class="tab" onclick="switchTab('radar', this)">Madurez BIM</button>
+  <button class="tab" onclick="switchTab('rfi', this)">RFI</button>
   <button class="tab" onclick="switchTab('iteraciones', this)">Iteraciones</button>
 </div>
 
-<!-- Chart Panel -->
 <div class="chart-panel">
 
   <div id="tab-plazos" class="tab-content active">
     <h3>Comparativo de Plazos (días corridos)</h3>
-    <p class="desc">El proyecto con BIM redujo la desviación de plazo en 47 puntos porcentuales respecto al caso sin BIM</p>
+    <p class="desc">El proyecto con BIM tuvo una desviación de plazo de 86% vs 118% del caso sin BIM (32 pp menos)</p>
     <div class="chart-container"><canvas id="chartPlazos"></canvas></div>
   </div>
 
   <div id="tab-kpi" class="tab-content">
     <h3>Indicadores de Desempeño</h3>
-    <p class="desc">Desviación porcentual de plazo y ratio de ejecución</p>
+    <p class="desc">Desviación porcentual de plazo y aumento de costos</p>
     <div class="chart-container"><canvas id="chartKPI"></canvas></div>
     <div class="info-box accent">
-      <p><strong class="accent">Nota sobre Costo/m²:</strong> Los proyectos se ejecutaron en períodos distintos (2013-2016 vs 2023-2025), por lo que la comparación de costos absolutos no es directa. La diferencia de costo/m² refleja inflación, normativa actualizada y mayor estándar de equipamiento, no necesariamente ineficiencia.</p>
+      <p><strong class="accent">Nota sobre Costos:</strong> El caso Arica presenta solo 1% de aumento de costos, pero esto se explica porque la política de la unidad técnica fue no generar aumentos de obra, lo que impactó directamente en la calidad de las terminaciones. Los aumentos fueron absorbidos como disminuciones de obra. Iquique, en cambio, absorbió los costos reales de las modificaciones manteniendo la calidad del producto final.</p>
     </div>
   </div>
 
@@ -157,10 +157,19 @@
     <div class="chart-container radar"><canvas id="chartRadar"></canvas></div>
   </div>
 
+  <div id="tab-rfi" class="tab-content">
+    <h3>Impacto de RFI en Aumentos de Contrato</h3>
+    <p class="desc">Porcentaje de RFI que generaron aumentos de costos al proyecto</p>
+    <div class="chart-container"><canvas id="chartRFI"></canvas></div>
+    <div class="info-box green">
+      <p><strong class="green">Lectura:</strong> En Iquique (con BIM), de 135 RFI solo el 31.1% impactó en aumentos — gracias a la gestión vía ACC y modelo BIM para analizar cambios, cubicarlos y tomar decisiones. En Arica (sin BIM), de solo 45 RFI el 98% generó aumentos, evidenciando que cada solicitud de información se traducía en modificación de contrato por falta de información previa.</p>
+    </div>
+  </div>
+
   <div id="tab-iteraciones" class="tab-content">
     <h3>Iteraciones del Modelo BIM</h3>
-    <p class="desc">I<sub>iter</sub> = V<sub>construcción</sub> / V<sub>diseño</sub> = 20 / 10 = <strong style="color:var(--bim)">2.0</strong></p>
-    <p class="desc" style="margin-top:4px">El modelo duplicó sus iteraciones en construcción vs diseño. Sin BIM, no existe registro de iteraciones.</p>
+    <p class="desc">I<sub>iter</sub> = (V<sub>diseño</sub> + V<sub>construcción</sub>) / V<sub>diseño</sub> = (10 + 20) / 10 = <strong style="color:var(--bim)">3.0</strong></p>
+    <p class="desc" style="margin-top:4px">El modelo maduró 3 veces respecto a su base de diseño. Sin BIM, no existe registro de iteraciones.</p>
     <div class="chart-container"><canvas id="chartIter"></canvas></div>
     <div class="info-box blue">
       <p><strong class="blue">Lectura del KPI:</strong> Cada iteración en construcción representa un ciclo completo de recepción de modelo → federación → detección de interferencias → observaciones → corrección por el especialista. Sin BIM, estos problemas se detectan en terreno como RFI y órdenes de cambio.</p>
@@ -169,47 +178,47 @@
 
 </div>
 
-<!-- Summary Table -->
+<!-- Summary Table — UPDATED v2 -->
 <div class="summary">
   <h3>Resumen Comparativo</h3>
   <table>
     <thead>
       <tr>
         <th class="left">KPI</th>
-        <th class="bim">Con BIM (Tarapacá)</th>
+        <th class="bim">Con BIM (Iquique)</th>
         <th class="nobim">Sin BIM (Arica)</th>
         <th class="diff">Diferencia</th>
       </tr>
     </thead>
     <tbody>
-      <tr><td class="kpi-name">Plazo Contrato</td><td class="bim-val">370 días</td><td class="nobim-val">420 días</td><td class="diff-val neutral">-</td></tr>
-      <tr><td class="kpi-name">Plazo Real</td><td class="bim-val">687 días</td><td class="nobim-val">978 días</td><td class="diff-val positive">-291 días</td></tr>
-      <tr><td class="kpi-name">Desviación Plazo</td><td class="bim-val">85.7%</td><td class="nobim-val">132.9%</td><td class="diff-val positive">-47.2 pp</td></tr>
-      <tr><td class="kpi-name">Ratio Plazo</td><td class="bim-val">1.86x</td><td class="nobim-val">2.33x</td><td class="diff-val positive">-0.47x</td></tr>
+      <tr><td class="kpi-name">Plazo Contrato</td><td class="bim-val">370 días</td><td class="nobim-val">300 días</td><td class="diff-val neutral">-</td></tr>
+      <tr><td class="kpi-name">Plazo Real</td><td class="bim-val">687 días</td><td class="nobim-val">655 días</td><td class="diff-val neutral">+32 días</td></tr>
+      <tr><td class="kpi-name">Desviación Plazo</td><td class="bim-val">86%</td><td class="nobim-val">118%</td><td class="diff-val positive">-32 pp</td></tr>
+      <tr><td class="kpi-name">Ratio Plazo</td><td class="bim-val">1.86x</td><td class="nobim-val">2.18x</td><td class="diff-val positive">-0.32x</td></tr>
+      <tr><td class="kpi-name">Aumento Costos</td><td class="bim-val">14%</td><td class="nobim-val">1%</td><td class="diff-val neutral">Ver nota</td></tr>
+      <tr><td class="kpi-name">RFI Totales</td><td class="bim-val">135</td><td class="nobim-val">45</td><td class="diff-val neutral">+90 RFI</td></tr>
+      <tr><td class="kpi-name">RFI con Aumento $</td><td class="bim-val">31.1%</td><td class="nobim-val">98%</td><td class="diff-val positive">-67 pp</td></tr>
       <tr><td class="kpi-name">Iteraciones Modelo</td><td class="bim-val">30 (10+20)</td><td class="nobim-val">0</td><td class="diff-val positive">+30</td></tr>
-      <tr><td class="kpi-name">Índice Iteración</td><td class="bim-val">2.0</td><td class="nobim-val">N/A</td><td class="diff-val positive">Modelo vivo</td></tr>
+      <tr><td class="kpi-name">Índice Maduración</td><td class="bim-val">3.0</td><td class="nobim-val">N/A</td><td class="diff-val positive">Modelo vivo</td></tr>
       <tr><td class="kpi-name">Modelo As-Built</td><td class="bim-val">Sí (digital)</td><td class="nobim-val">No</td><td class="diff-val positive">Ventaja BIM</td></tr>
       <tr><td class="kpi-name">Trazabilidad</td><td class="bim-val">Completa</td><td class="nobim-val">Parcial/papel</td><td class="diff-val positive">Ventaja BIM</td></tr>
     </tbody>
   </table>
 </div>
 
-<p class="footer">Fuente: Ficha de Documentación BIM Lab Salud Chile · Estudio BID 2025 · Datos: Coordinación BIM Métrico BIM Ltda.</p>
+<p class="footer">Fuente: Ficha de Documentación BIM Lab Salud Chile v2 · Estudio BID 2025 · Datos: Coordinación BIM Métrico BIM Ltda.</p>
 
-</div><!-- /wrapper -->
+</div>
 
 <script>
-const BIM = '#0ea5e9', NOBIM = '#f97316', GRID = '#334155', MUTED = '#94a3b8';
-
+const BIM = '#0ea5e9', NOBIM = '#f97316', GRID = '#334155', MUTED = '#94a3b8', GREEN = '#22c55e';
 Chart.defaults.color = MUTED;
 Chart.defaults.borderColor = GRID;
 Chart.defaults.font.family = "'Inter', system-ui, sans-serif";
 Chart.defaults.font.size = 12;
 Chart.defaults.plugins.legend.labels.usePointStyle = true;
 Chart.defaults.plugins.legend.labels.pointStyle = 'rectRounded';
-
-const CHART_OPTS = { responsive: true, maintainAspectRatio: false };
-
+const OPTS = { responsive: true, maintainAspectRatio: false };
 const charts = {};
 
 function createCharts() {
@@ -218,11 +227,11 @@ function createCharts() {
     data: {
       labels: ['Plazo Contrato', 'Plazo Real', 'Días Adicionales'],
       datasets: [
-        { label: 'Con BIM', data: [600, 687, 317], backgroundColor: BIM, borderRadius: 6 },
-        { label: 'Sin BIM', data: [420, 978, 558], backgroundColor: NOBIM, borderRadius: 6 },
+        { label: 'Con BIM (Iquique)', data: [370, 687, 317], backgroundColor: BIM, borderRadius: 6 },
+        { label: 'Sin BIM (Arica)', data: [300, 655, 355], backgroundColor: NOBIM, borderRadius: 6 },
       ]
     },
-    options: { ...CHART_OPTS,
+    options: { ...OPTS,
       plugins: { tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': ' + ctx.parsed.y.toLocaleString('es-CL') + ' días' } } },
       scales: { y: { beginAtZero: true, grid: { color: GRID } }, x: { grid: { display: false } } }
     }
@@ -231,13 +240,13 @@ function createCharts() {
   charts.kpi = new Chart(document.getElementById('chartKPI'), {
     type: 'bar',
     data: {
-      labels: ['Desviación Plazo (%)', 'Costo/m² (UF aprox.)'],
+      labels: ['Desviación Plazo (%)', 'Aumento Costos (%)', 'UF/m²'],
       datasets: [
-        { label: 'Con BIM', data: [85.7, 25.7], backgroundColor: BIM, borderRadius: 6 },
-        { label: 'Sin BIM', data: [132.9, 12.5], backgroundColor: NOBIM, borderRadius: 6 },
+        { label: 'Con BIM (Iquique)', data: [86, 14, 125.08], backgroundColor: BIM, borderRadius: 6 },
+        { label: 'Sin BIM (Arica)', data: [118, 1, 70.89], backgroundColor: NOBIM, borderRadius: 6 },
       ]
     },
-    options: { ...CHART_OPTS,
+    options: { ...OPTS,
       scales: { y: { beginAtZero: true, grid: { color: GRID } }, x: { grid: { display: false } } }
     }
   });
@@ -251,8 +260,22 @@ function createCharts() {
         { label: 'Sin BIM', data: [35, 15, 25, 20, 5, 0], borderColor: NOBIM, backgroundColor: NOBIM + '25', pointBackgroundColor: NOBIM, borderWidth: 2 },
       ]
     },
-    options: { ...CHART_OPTS,
+    options: { ...OPTS,
       scales: { r: { beginAtZero: true, max: 100, ticks: { stepSize: 25, color: MUTED, backdropColor: 'transparent' }, grid: { color: GRID }, pointLabels: { color: MUTED, font: { size: 11 } }, angleLines: { color: GRID } } }
+    }
+  });
+
+  charts.rfi = new Chart(document.getElementById('chartRFI'), {
+    type: 'bar',
+    data: {
+      labels: ['Total RFI', 'RFI con Aumento (%)', 'RFI sin Aumento (%)'],
+      datasets: [
+        { label: 'Con BIM (Iquique)', data: [135, 31.1, 68.9], backgroundColor: BIM, borderRadius: 6 },
+        { label: 'Sin BIM (Arica)', data: [45, 98, 2], backgroundColor: NOBIM, borderRadius: 6 },
+      ]
+    },
+    options: { ...OPTS,
+      scales: { y: { beginAtZero: true, grid: { color: GRID } }, x: { grid: { display: false } } }
     }
   });
 
@@ -265,7 +288,7 @@ function createCharts() {
         { label: 'Sin BIM', data: [0, 0, 0], backgroundColor: NOBIM, borderRadius: 6 },
       ]
     },
-    options: { ...CHART_OPTS,
+    options: { ...OPTS,
       scales: { y: { beginAtZero: true, grid: { color: GRID } }, x: { grid: { display: false } } }
     }
   });
@@ -277,7 +300,6 @@ function switchTab(id, btn) {
   document.getElementById('tab-' + id).classList.add('active');
   btn.classList.add('active');
 }
-
 createCharts();
 </script>
 </body>

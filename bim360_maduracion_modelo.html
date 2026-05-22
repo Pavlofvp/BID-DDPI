@@ -17,43 +17,34 @@
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { background: var(--bg); color: var(--text); font-family: 'Inter', system-ui, sans-serif; padding: 24px 20px; min-height: 100vh; }
-
-  /* === CONTENEDOR FIJO === */
   .wrapper { max-width: 1100px; min-width: 800px; margin: 0 auto; }
   .chart-container { position: relative; width: 100%; height: 340px; }
   .chart-container.tall { height: 380px; }
-
   .mono { font-family: 'JetBrains Mono', monospace; }
-
   .header { text-align: center; margin-bottom: 24px; }
   .header .pill { display: inline-block; padding: 4px 14px; background: rgba(139,92,246,0.15); border-radius: 20px; margin-bottom: 8px; }
   .header .pill span { color: var(--accent); font-size: 11px; text-transform: uppercase; letter-spacing: 2px; }
   .header h1 { font-size: 24px; font-weight: 700; margin: 8px 0 4px; letter-spacing: -0.5px; }
   .header .sub { color: var(--muted); font-size: 13px; }
-
   .metric-row { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 24px; }
   .metric-box { background: var(--card); border-radius: 12px; padding: 18px 20px; border: 1px solid var(--border); flex: 1 1 160px; min-width: 150px; text-align: center; }
   .metric-box .label { color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: 1px; }
   .metric-box .value { font-size: 36px; font-weight: 700; margin: 8px 0 2px; font-family: 'JetBrains Mono', monospace; }
   .metric-box .value .unit { font-size: 16px; font-weight: 400; }
   .metric-box .sub { color: var(--muted); font-size: 11px; }
-
   .tabs { display: flex; gap: 4px; margin-bottom: 20px; border-bottom: 1px solid var(--border); }
   .tab { background: transparent; color: var(--muted); border: none; border-bottom: 2px solid transparent; padding: 10px 16px; font-size: 13px; font-weight: 400; cursor: pointer; border-radius: 8px 8px 0 0; transition: all 0.2s; font-family: inherit; }
   .tab.active { background: var(--card); color: var(--text); border-bottom-color: var(--const); font-weight: 600; }
   .tab:hover { color: var(--text); }
-
   .panel { background: var(--card); border-radius: 12px; border: 1px solid var(--border); padding: 24px; }
   .panel h3 { font-size: 16px; font-weight: 600; margin-bottom: 6px; }
   .panel .desc { color: var(--muted); font-size: 12px; margin-bottom: 20px; }
   .tab-content { display: none; }
   .tab-content.active { display: block; }
-
   .legend { display: flex; justify-content: center; gap: 24px; margin-top: 12px; }
   .legend-item { display: flex; align-items: center; gap: 6px; }
   .legend-dot { font-size: 16px; }
   .legend-label { color: var(--muted); font-size: 12px; }
-
   .info-box { margin-top: 20px; padding: 14px 18px; border-radius: 8px; }
   .info-box p { color: var(--muted); font-size: 12px; line-height: 1.6; }
   .info-box.green { background: rgba(34,197,94,0.08); border: 1px solid rgba(34,197,94,0.2); }
@@ -64,58 +55,49 @@
   .info-box.blue strong { color: var(--const); }
   .info-box.yellow { background: rgba(251,191,36,0.08); border: 1px solid rgba(251,191,36,0.2); }
   .info-box.yellow strong { color: var(--warn); }
-
   .workflow { display: flex; align-items: center; justify-content: center; flex-wrap: nowrap; gap: 0; margin-bottom: 24px; }
   .wf-step { text-align: center; padding: 16px 14px; border-radius: 12px; min-width: 110px; width: 140px; }
   .wf-step .icon { font-size: 28px; margin-bottom: 6px; }
   .wf-step .name { color: var(--text); font-size: 12px; font-weight: 600; white-space: pre-line; line-height: 1.3; }
   .wf-step .detail { color: var(--muted); font-size: 10px; margin-top: 4px; white-space: pre-line; line-height: 1.3; }
   .wf-arrow { color: var(--muted); font-size: 20px; padding: 0 6px; flex-shrink: 0; }
-
   .phase-row { display: flex; gap: 16px; flex-wrap: nowrap; margin-bottom: 20px; }
   .phase-card { flex: 1; min-width: 200px; padding: 16px 20px; border-radius: 10px; }
   .phase-card .phase-label { font-size: 12px; font-weight: 600; margin-bottom: 4px; }
   .phase-card .phase-value { font-size: 28px; font-weight: 700; margin-bottom: 4px; font-family: 'JetBrains Mono', monospace; }
   .phase-card .phase-value .sm { font-size: 14px; font-weight: 400; }
   .phase-card .phase-sub { color: var(--muted); font-size: 11px; }
-
   .prop-bar { display: flex; border-radius: 8px; overflow: hidden; height: 40px; margin-top: 24px; }
   .prop-segment { display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; color: var(--bg); }
-
-  .formulas { display: flex; gap: 40px; flex-wrap: wrap; margin-top: 20px; }
+  .formulas { display: flex; gap: 40px; flex-wrap: wrap; }
   .formula-block .formula-title { color: var(--accent); font-size: 12px; font-weight: 600; margin-bottom: 4px; }
   .formula-block .formula-expr { color: var(--text); font-size: 14px; font-family: 'JetBrains Mono', monospace; }
   .formula-block .formula-note { color: var(--muted); font-size: 11px; margin-top: 4px; }
-
   .impact-row { display: flex; gap: 16px; flex-wrap: nowrap; margin-top: 20px; }
   .impact-box { flex: 1; min-width: 200px; padding: 16px 20px; border-radius: 10px; }
   .impact-box .impact-label { font-size: 12px; font-weight: 600; margin-bottom: 4px; }
   .impact-box .impact-value { font-size: 22px; font-weight: 700; margin-bottom: 4px; font-family: 'JetBrains Mono', monospace; color: var(--text); }
   .impact-box .impact-sub { color: var(--muted); font-size: 11px; }
-
   .footer { color: var(--muted); font-size: 10px; text-align: center; margin-top: 20px; opacity: 0.6; }
 </style>
 </head>
 <body>
 <div class="wrapper">
 
-<!-- Header -->
 <div class="header">
   <div class="pill"><span>BIM 360 · Modelo Colaborativo</span></div>
   <h1>Maduración del Modelo BIM</h1>
-  <p class="sub">Evolución de 30 iteraciones · Lab. Salud Pública Tarapacá</p>
+  <p class="sub">Evolución de 30 iteraciones · Lab. Salud Pública Iquique</p>
 </div>
 
-<!-- Metric Row -->
+<!-- Metric Row — UPDATED v2: I_iter now = 3.0 -->
 <div class="metric-row">
   <div class="metric-box"><p class="label">Iter. Diseño</p><p class="value" style="color:var(--design)">10<span class="unit"> ver.</span></p><p class="sub">V1 → V10 en BIM 360</p></div>
   <div class="metric-box"><p class="label">Iter. Construcción</p><p class="value" style="color:var(--const)">20<span class="unit"> ver.</span></p><p class="sub">V11 → V30 en obra</p></div>
   <div class="metric-box"><p class="label">Total Publicaciones</p><p class="value">30<span class="unit"> ver.</span></p><p class="sub">Modelo completo</p></div>
-  <div class="metric-box"><p class="label">I_iter</p><p class="value" style="color:var(--asbuilt)">2.0</p><p class="sub">V_const / V_diseño</p></div>
-  <div class="metric-box"><p class="label">I_total</p><p class="value" style="color:var(--warn)">3.0</p><p class="sub">(10+20) / 10</p></div>
+  <div class="metric-box"><p class="label">I_iter</p><p class="value" style="color:var(--asbuilt)">3.0</p><p class="sub">(V_dis + V_const) / V_dis</p></div>
 </div>
 
-<!-- Tabs -->
 <div class="tabs">
   <button class="tab active" onclick="switchTab('lifecycle', this)">Ciclo de Vida</button>
   <button class="tab" onclick="switchTab('phases', this)">Fases</button>
@@ -123,10 +105,8 @@
   <button class="tab" onclick="switchTab('impact', this)">Impacto vs Tradicional</button>
 </div>
 
-<!-- Panel -->
 <div class="panel">
 
-  <!-- Lifecycle -->
   <div id="tab-lifecycle" class="tab-content active">
     <h3>Curva de Maduración del Modelo — Ciclo de Vida Completo</h3>
     <p class="desc">30 publicaciones acumuladas en BIM 360: el modelo no murió en diseño, evolucionó hasta As-Built</p>
@@ -141,39 +121,29 @@
     </div>
   </div>
 
-  <!-- Phases -->
   <div id="tab-phases" class="tab-content">
     <h3>Distribución de Iteraciones por Fase</h3>
     <p class="desc">El 66.7% de las iteraciones del modelo ocurrieron durante la construcción</p>
     <div class="chart-container"><canvas id="chartPhases"></canvas></div>
-
     <p style="color:var(--muted); font-size:12px; margin-top:24px; margin-bottom:8px;">Proporción del ciclo de vida del modelo</p>
     <div class="prop-bar">
       <div class="prop-segment" style="width:33.3%; background:var(--design);">33.3% Diseño</div>
       <div class="prop-segment" style="width:66.7%; background:var(--const);">66.7% Construcción</div>
     </div>
-
     <div class="info-box purple" style="margin-top:20px; padding:16px 20px;">
       <div class="formulas">
         <div class="formula-block">
-          <p class="formula-title">Índice de Iteración</p>
-          <p class="formula-expr">I<sub>iter</sub> = V<sub>const</sub> / V<sub>diseño</sub> = 20 / 10 = <strong style="color:var(--asbuilt)">2.0</strong></p>
-          <p class="formula-note">El modelo duplicó iteraciones en obra vs diseño</p>
-        </div>
-        <div class="formula-block">
-          <p class="formula-title">Índice de Maduración Total</p>
-          <p class="formula-expr">I<sub>total</sub> = (V<sub>diseño</sub> + V<sub>const</sub>) / V<sub>diseño</sub> = 30 / 10 = <strong style="color:var(--warn)">3.0</strong></p>
+          <p class="formula-title">Índice de Maduración del Modelo (I_iter)</p>
+          <p class="formula-expr">I<sub>iter</sub> = (V<sub>diseño</sub> + V<sub>const</sub>) / V<sub>diseño</sub> = (10 + 20) / 10 = <strong style="color:var(--asbuilt)">3.0</strong></p>
           <p class="formula-note">El modelo maduró 3x respecto a su base de diseño</p>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Workflow -->
   <div id="tab-workflow" class="tab-content">
     <h3>Flujo de Coordinación por Iteración</h3>
     <p class="desc">Cada iteración = un ciclo completo de coordinación centralizada con especialistas externos a BIM 360</p>
-
     <div class="workflow">
       <div class="wf-step" style="background:rgba(167,139,250,0.08); border:1px solid rgba(167,139,250,0.25);">
         <div class="icon">📥</div><p class="name">Recepción
@@ -201,7 +171,6 @@ especialista</p>
 modifica y reenvía</p>
       </div>
     </div>
-
     <div class="phase-row">
       <div class="phase-card" style="background:rgba(167,139,250,0.08); border:1px solid rgba(167,139,250,0.25);">
         <p class="phase-label" style="color:var(--design)">Fase Diseño</p>
@@ -214,18 +183,15 @@ modifica y reenvía</p>
         <p class="phase-sub">Resolución de RFI + Modificaciones + Actualización As-Built</p>
       </div>
     </div>
-
     <div class="info-box blue">
       <p><strong>Modelo de trabajo:</strong> Solo Arquitectura operó directamente en BIM 360. Los demás especialistas modelaron en sus entornos locales y enviaron sus archivos .rvt a la oficina de Coordinación BIM (Métrico BIM Ltda.), donde se federaron, coordinaron y devolvieron con observaciones. Este esquema hub-and-spoke generó los 30 ciclos documentados.</p>
     </div>
   </div>
 
-  <!-- Impact -->
   <div id="tab-impact" class="tab-content">
     <h3>Impacto de la Iteración: Oficina vs Terreno</h3>
     <p class="desc">Estimación del tiempo de resolución de problemas detectados en coordinación BIM vs descubiertos en obra</p>
     <div class="chart-container"><canvas id="chartImpact"></canvas></div>
-
     <div class="impact-row">
       <div class="impact-box" style="background:rgba(249,115,22,0.07); border:1px solid rgba(249,115,22,0.19);">
         <p class="impact-label" style="color:var(--orange)">Costo real por brechas (4D→5D)</p>
@@ -234,38 +200,33 @@ modifica y reenvía</p>
       </div>
       <div class="impact-box" style="background:rgba(34,197,94,0.07); border:1px solid rgba(34,197,94,0.19);">
         <p class="impact-label" style="color:var(--asbuilt)">Proyección sin coordinación BIM</p>
-        <p class="impact-value">≈ 132.9%</p>
+        <p class="impact-value">≈ 118%</p>
         <p class="impact-sub">Desviación de plazo del caso Arica (sin BIM) como referencia</p>
       </div>
     </div>
-
     <div class="info-box yellow">
-      <p><strong>Conclusión:</strong> Las 20 iteraciones de construcción en BIM 360 resolvieron interferencias en oficina que de otro modo se habrían descubierto en terreno. Aun así, las 3 brechas principales (trazado, estructura y MEP) generaron $386M en sobrecostos. Sin las iteraciones BIM, el escenario habría sido comparable al caso Arica: 132.9% de desviación de plazo vs el 85.7% efectivo con BIM.</p>
+      <p><strong>Conclusión:</strong> Las 20 iteraciones de construcción en BIM 360 resolvieron interferencias en oficina que de otro modo se habrían descubierto en terreno. Aun así, las 3 brechas principales (trazado, estructura y MEP) generaron $386M en sobrecostos. Sin las iteraciones BIM, el escenario habría sido comparable al caso Arica: 118% de desviación de plazo vs el 86% efectivo con BIM.</p>
     </div>
   </div>
 
 </div>
 
-<p class="footer">Fuente: Coordinación BIM Métrico BIM Ltda. · Lab. Salud Pública Tarapacá · Estudio BID 2025</p>
+<p class="footer">Fuente: Coordinación BIM Métrico BIM Ltda. · Lab. Salud Pública Iquique · Estudio BID 2025 · Ficha v2</p>
 
-</div><!-- /wrapper -->
+</div>
 
 <script>
 const DESIGN = '#a78bfa', CONST = '#0ea5e9', ASBUILT = '#22c55e', ORANGE = '#f97316';
 const GRID = '#334155', MUTED = '#94a3b8';
-
 Chart.defaults.color = MUTED;
 Chart.defaults.borderColor = GRID;
 Chart.defaults.font.family = "'Inter', system-ui, sans-serif";
 Chart.defaults.font.size = 12;
 Chart.defaults.plugins.legend.labels.usePointStyle = true;
-
-const CHART_OPTS = { responsive: true, maintainAspectRatio: false };
-
+const OPTS = { responsive: true, maintainAspectRatio: false };
 const charts = {};
 
 function createCharts() {
-  // Lifecycle
   const labels = Array.from({length:30}, (_,i) => 'V'+(i+1));
   const cumData = Array.from({length:30}, (_,i) => i+1);
   const pointColors = labels.map((_,i) => i < 10 ? DESIGN : i === 29 ? ASBUILT : CONST);
@@ -277,41 +238,24 @@ function createCharts() {
       labels: labels,
       datasets: [{
         label: 'Publicaciones acumuladas',
-        data: cumData,
-        borderColor: CONST,
-        borderWidth: 3,
-        pointBackgroundColor: pointColors,
-        pointBorderColor: '#0f172a',
-        pointBorderWidth: 2,
-        pointRadius: pointRadius,
-        pointHoverRadius: 8,
-        fill: { target: 'origin', above: 'rgba(167,139,250,0.1)' },
-        tension: 0.1,
+        data: cumData, borderColor: CONST, borderWidth: 3,
+        pointBackgroundColor: pointColors, pointBorderColor: '#0f172a', pointBorderWidth: 2,
+        pointRadius: pointRadius, pointHoverRadius: 8,
+        fill: { target: 'origin', above: 'rgba(167,139,250,0.1)' }, tension: 0.1,
       }]
     },
-    options: { ...CHART_OPTS,
+    options: { ...OPTS,
       plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => 'Versión ' + ctx.label + ' — Acumulado: ' + ctx.parsed.y } } },
-      scales: {
-        y: { beginAtZero: true, title: { display: true, text: 'Publicaciones acumuladas', color: MUTED }, grid: { color: GRID } },
-        x: { grid: { display: false }, ticks: { maxTicksLimit: 10 } }
-      }
+      scales: { y: { beginAtZero: true, title: { display: true, text: 'Publicaciones acumuladas', color: MUTED }, grid: { color: GRID } }, x: { grid: { display: false }, ticks: { maxTicksLimit: 10 } } }
     }
   });
 
-  // Phases
   charts.phases = new Chart(document.getElementById('chartPhases'), {
     type: 'bar',
-    data: {
-      labels: ['Diseño', 'Construcción'],
-      datasets: [{ label: 'Iteraciones', data: [10, 20], backgroundColor: [DESIGN, CONST], borderRadius: 8, barThickness: 80 }]
-    },
-    options: { ...CHART_OPTS,
-      plugins: { legend: { display: false } },
-      scales: { y: { beginAtZero: true, grid: { color: GRID } }, x: { grid: { display: false } } }
-    }
+    data: { labels: ['Diseño', 'Construcción'], datasets: [{ label: 'Iteraciones', data: [10, 20], backgroundColor: [DESIGN, CONST], borderRadius: 8, barThickness: 80 }] },
+    options: { ...OPTS, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, grid: { color: GRID } }, x: { grid: { display: false } } } }
   });
 
-  // Impact
   charts.impact = new Chart(document.getElementById('chartImpact'), {
     type: 'bar',
     data: {
@@ -321,12 +265,7 @@ function createCharts() {
         { label: 'Sin BIM (días)', data: [45, 60, 90], backgroundColor: ORANGE, borderRadius: 6 },
       ]
     },
-    options: { ...CHART_OPTS,
-      scales: {
-        y: { beginAtZero: true, title: { display: true, text: 'Días estimados resolución', color: MUTED }, grid: { color: GRID } },
-        x: { grid: { display: false } }
-      }
-    }
+    options: { ...OPTS, scales: { y: { beginAtZero: true, title: { display: true, text: 'Días estimados resolución', color: MUTED }, grid: { color: GRID } }, x: { grid: { display: false } } } }
   });
 }
 
@@ -336,7 +275,6 @@ function switchTab(id, btn) {
   document.getElementById('tab-' + id).classList.add('active');
   btn.classList.add('active');
 }
-
 createCharts();
 </script>
 </body>
