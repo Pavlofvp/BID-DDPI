@@ -34,8 +34,9 @@
   .kpi-card .val .unit { font-size: 14px; font-weight: 400; }
   .kpi-card .val-label { color: var(--muted); font-size: 11px; margin-top: 2px; }
   .kpi-card .badge { margin-top: 10px; padding: 4px 10px; background: rgba(34,197,94,0.12); border-radius: 6px; display: inline-block; color: var(--green); font-size: 12px; font-weight: 600; }
+  .kpi-card .badge.warn { background: rgba(251,191,36,0.12); color: #fbbf24; }
   .kpi-card .note { color: var(--muted); font-size: 11px; margin-top: 8px; }
-  .tabs { display: flex; gap: 4px; margin-bottom: 20px; border-bottom: 1px solid var(--border); }
+  .tabs { display: flex; gap: 4px; margin-bottom: 20px; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
   .tab { background: transparent; color: var(--muted); border: none; border-bottom: 2px solid transparent; padding: 10px 18px; font-size: 13px; font-weight: 400; cursor: pointer; border-radius: 8px 8px 0 0; transition: all 0.2s; font-family: inherit; }
   .tab.active { background: var(--card); color: var(--text); border-bottom-color: var(--bim); font-weight: 600; }
   .tab:hover { color: var(--text); }
@@ -48,10 +49,14 @@
   .info-box.accent { background: rgba(139,92,246,0.08); border: 1px solid rgba(139,92,246,0.2); }
   .info-box.blue { background: rgba(14,165,233,0.08); border: 1px solid rgba(14,165,233,0.2); }
   .info-box.green { background: rgba(34,197,94,0.08); border: 1px solid rgba(34,197,94,0.2); }
+  .info-box.yellow { background: rgba(251,191,36,0.08); border: 1px solid rgba(251,191,36,0.2); }
+  .info-box.red { background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.2); }
   .info-box p { color: var(--muted); font-size: 12px; line-height: 1.6; }
   .info-box strong.accent { color: var(--accent); }
   .info-box strong.blue { color: var(--bim); }
   .info-box strong.green { color: var(--green); }
+  .info-box strong.yellow { color: #fbbf24; }
+  .info-box strong.red { color: var(--red); }
   .summary { background: var(--card); border-radius: 12px; border: 1px solid var(--border); padding: 24px; margin-top: 16px; }
   .summary h3 { font-size: 16px; font-weight: 600; margin-bottom: 16px; }
   table { width: 100%; border-collapse: collapse; font-size: 13px; }
@@ -69,7 +74,17 @@
   td.diff-val { text-align: center; font-weight: 600; font-size: 12px; }
   td.diff-val.positive { color: var(--green); }
   td.diff-val.neutral { color: var(--muted); }
+  td.diff-val.negative { color: var(--red); }
   .footer { color: var(--muted); font-size: 10px; text-align: center; margin-top: 20px; opacity: 0.6; }
+
+  /* Quality comparison cards */
+  .quality-row { display: flex; gap: 16px; margin-bottom: 20px; flex-wrap: nowrap; }
+  .quality-card { flex: 1; border-radius: 12px; padding: 20px; min-width: 300px; }
+  .quality-card h4 { font-size: 14px; font-weight: 700; margin-bottom: 14px; }
+  .quality-item { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px; }
+  .quality-item .icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+  .quality-item .qi-text { font-size: 12px; color: var(--muted); line-height: 1.5; }
+  .quality-item .qi-text strong { color: var(--text); }
 </style>
 </head>
 <body>
@@ -81,7 +96,7 @@
   <p class="sub">Lab. Salud Pública Iquique (BIM) vs Lab. Salud Pública Arica (Tradicional)</p>
 </div>
 
-<!-- KPI Cards — UPDATED v2 -->
+<!-- KPI Cards -->
 <div class="kpi-row">
   <div class="kpi-card">
     <p class="label">Desviación de Plazo</p>
@@ -129,8 +144,9 @@
 <div class="tabs">
   <button class="tab active" onclick="switchTab('plazos', this)">Plazos</button>
   <button class="tab" onclick="switchTab('kpi', this)">KPIs</button>
-  <button class="tab" onclick="switchTab('radar', this)">Madurez BIM</button>
   <button class="tab" onclick="switchTab('rfi', this)">RFI</button>
+  <button class="tab" onclick="switchTab('calidad', this)">Calidad</button>
+  <button class="tab" onclick="switchTab('radar', this)">Madurez BIM</button>
   <button class="tab" onclick="switchTab('iteraciones', this)">Iteraciones</button>
 </div>
 
@@ -144,17 +160,11 @@
 
   <div id="tab-kpi" class="tab-content">
     <h3>Indicadores de Desempeño</h3>
-    <p class="desc">Desviación porcentual de plazo y aumento de costos</p>
+    <p class="desc">Desviación porcentual de plazo, aumento de costos y valor UF/m²</p>
     <div class="chart-container"><canvas id="chartKPI"></canvas></div>
     <div class="info-box accent">
-      <p><strong class="accent">Nota sobre Costos:</strong> El caso Arica presenta solo 1% de aumento de costos, pero esto se explica porque la política de la unidad técnica fue no generar aumentos de obra, lo que impactó directamente en la calidad de las terminaciones. Los aumentos fueron absorbidos como disminuciones de obra. Iquique, en cambio, absorbió los costos reales de las modificaciones manteniendo la calidad del producto final.</p>
+      <p><strong class="accent">Nota sobre Costos:</strong> El caso Arica presenta solo 1% de aumento de costos, pero esto se explica porque la política de la unidad técnica fue no generar aumentos de obra, lo que impactó directamente en la calidad de las terminaciones. Los aumentos fueron absorbidos como disminuciones de obra. Iquique, en cambio, absorbió los costos reales de las modificaciones manteniendo la calidad del producto final conforme a la Guía de Diseño y normas ISP.</p>
     </div>
-  </div>
-
-  <div id="tab-radar" class="tab-content">
-    <h3>Nivel de Madurez BIM Comparado</h3>
-    <p class="desc">Evaluación cualitativa de capacidades según metodología aplicada</p>
-    <div class="chart-container radar"><canvas id="chartRadar"></canvas></div>
   </div>
 
   <div id="tab-rfi" class="tab-content">
@@ -164,6 +174,44 @@
     <div class="info-box green">
       <p><strong class="green">Lectura:</strong> En Iquique (con BIM), de 135 RFI solo el 31.1% impactó en aumentos — gracias a la gestión vía ACC y modelo BIM para analizar cambios, cubicarlos y tomar decisiones. En Arica (sin BIM), de solo 45 RFI el 98% generó aumentos, evidenciando que cada solicitud de información se traducía en modificación de contrato por falta de información previa.</p>
     </div>
+  </div>
+
+  <!-- NEW TAB: Calidad -->
+  <div id="tab-calidad" class="tab-content">
+    <h3>Impacto en la Calidad del Producto Final</h3>
+    <p class="desc">La mayor información trazable que aporta BIM se traduce en mayor calidad del activo entregado</p>
+
+    <div class="chart-container"><canvas id="chartCalidad"></canvas></div>
+
+    <!-- Quality comparison cards -->
+    <div class="quality-row" style="margin-top:24px;">
+      <div class="quality-card" style="background:rgba(14,165,233,0.06); border:1px solid rgba(14,165,233,0.2);">
+        <h4 style="color:var(--bim);">✅ Iquique — Con BIM (125,08 UF/m²)</h4>
+        <div class="quality-item"><span class="icon">🏗️</span><div class="qi-text"><strong>Fachada ventilada</strong> con placas pétreas Equitone (Hunter & Douglas), desempeño térmico superior</div></div>
+        <div class="quality-item"><span class="icon">❄️</span><div class="qi-text"><strong>Climatización con recuperadores de calor</strong>, optimización energética para recintos de laboratorio</div></div>
+        <div class="quality-item"><span class="icon">☀️</span><div class="qi-text"><strong>Celosías quebrasoles</strong> para control solar, protección de equipos de análisis (Cromatógrafos y HPLC)</div></div>
+        <div class="quality-item"><span class="icon">📋</span><div class="qi-text"><strong>Cumple Guía de Diseño DDPI</strong>, normas de calificación ISP y estándar de equipamiento requerido</div></div>
+        <div class="quality-item"><span class="icon">📐</span><div class="qi-text"><strong>Modelo As-Built digital</strong> disponible para fase de operación y gestión de activos</div></div>
+      </div>
+      <div class="quality-card" style="background:rgba(249,115,22,0.06); border:1px solid rgba(249,115,22,0.2);">
+        <h4 style="color:var(--nobim);">⚠️ Arica — Sin BIM (70,89 UF/m²)</h4>
+        <div class="quality-item"><span class="icon">🧱</span><div class="qi-text"><strong>Fachada con placas de fibrocemento</strong>, sin sistema de fachada ventilada de alto desempeño</div></div>
+        <div class="quality-item"><span class="icon">🔻</span><div class="qi-text"><strong>Disminuciones de obra</strong> aplicadas para contener presupuesto, comprometiendo terminaciones</div></div>
+        <div class="quality-item"><span class="icon">⚡</span><div class="qi-text"><strong>Inconsistencia equipamiento-edificio</strong>, derivó en requerimientos posteriores a la recepción</div></div>
+        <div class="quality-item"><span class="icon">📄</span><div class="qi-text"><strong>98% de RFI con aumento</strong>, evidencia de obra ejecutada con información insuficiente</div></div>
+        <div class="quality-item"><span class="icon">❌</span><div class="qi-text"><strong>Sin modelo As-Built</strong>, documentación final reconstruida manualmente en CAD</div></div>
+      </div>
+    </div>
+
+    <div class="info-box yellow">
+      <p><strong class="yellow">Conclusión:</strong> Aunque Arica presentó un menor valor de construcción (70,89 UF/m² frente a 125,08 UF/m²), su producto final resultó deficiente en terminaciones, especialidades y equipamiento, y generó requerimientos posteriores a la entrega. Iquique, gestionado con metodología BIM, alcanzó un edificio terminado conforme a la Guía de Diseño, a las normas de calificación del ISP y al sistema de climatización requerido, absorbiendo las RFI en tiempo y forma sin incurrir en sobrecostos desproporcionados. La mayor cantidad de información trazable que aporta BIM se traduce en una mayor calidad del activo entregado y en un mejor control del ciclo de inversión.</p>
+    </div>
+  </div>
+
+  <div id="tab-radar" class="tab-content">
+    <h3>Nivel de Madurez BIM Comparado</h3>
+    <p class="desc">Evaluación cualitativa de capacidades según metodología aplicada</p>
+    <div class="chart-container radar"><canvas id="chartRadar"></canvas></div>
   </div>
 
   <div id="tab-iteraciones" class="tab-content">
@@ -178,7 +226,7 @@
 
 </div>
 
-<!-- Summary Table — UPDATED v2 -->
+<!-- Summary Table -->
 <div class="summary">
   <h3>Resumen Comparativo</h3>
   <table>
@@ -195,9 +243,13 @@
       <tr><td class="kpi-name">Plazo Real</td><td class="bim-val">687 días</td><td class="nobim-val">655 días</td><td class="diff-val neutral">+32 días</td></tr>
       <tr><td class="kpi-name">Desviación Plazo</td><td class="bim-val">86%</td><td class="nobim-val">118%</td><td class="diff-val positive">-32 pp</td></tr>
       <tr><td class="kpi-name">Ratio Plazo</td><td class="bim-val">1.86x</td><td class="nobim-val">2.18x</td><td class="diff-val positive">-0.32x</td></tr>
-      <tr><td class="kpi-name">Aumento Costos</td><td class="bim-val">14%</td><td class="nobim-val">1%</td><td class="diff-val neutral">Ver nota</td></tr>
+      <tr><td class="kpi-name">Aumento Costos</td><td class="bim-val">14%</td><td class="nobim-val">1%</td><td class="diff-val neutral">Ver nota calidad</td></tr>
+      <tr><td class="kpi-name">Valor UF/m²</td><td class="bim-val">125,08</td><td class="nobim-val">70,89</td><td class="diff-val neutral">Distinto estándar</td></tr>
       <tr><td class="kpi-name">RFI Totales</td><td class="bim-val">135</td><td class="nobim-val">45</td><td class="diff-val neutral">+90 RFI</td></tr>
       <tr><td class="kpi-name">RFI con Aumento $</td><td class="bim-val">31.1%</td><td class="nobim-val">98%</td><td class="diff-val positive">-67 pp</td></tr>
+      <tr><td class="kpi-name">Calidad Producto Final</td><td class="bim-val">Conforme a Guía/ISP</td><td class="nobim-val">Deficiente</td><td class="diff-val positive">Ventaja BIM</td></tr>
+      <tr><td class="kpi-name">Envolvente</td><td class="bim-val">Equitone + clima</td><td class="nobim-val">Fibrocemento</td><td class="diff-val positive">Ventaja BIM</td></tr>
+      <tr><td class="kpi-name">Requerimientos Post-Entrega</td><td class="bim-val">No</td><td class="nobim-val">Sí</td><td class="diff-val positive">Ventaja BIM</td></tr>
       <tr><td class="kpi-name">Iteraciones Modelo</td><td class="bim-val">30 (10+20)</td><td class="nobim-val">0</td><td class="diff-val positive">+30</td></tr>
       <tr><td class="kpi-name">Índice Maduración</td><td class="bim-val">3.0</td><td class="nobim-val">N/A</td><td class="diff-val positive">Modelo vivo</td></tr>
       <tr><td class="kpi-name">Modelo As-Built</td><td class="bim-val">Sí (digital)</td><td class="nobim-val">No</td><td class="diff-val positive">Ventaja BIM</td></tr>
@@ -206,12 +258,12 @@
   </table>
 </div>
 
-<p class="footer">Fuente: Ficha de Documentación BIM Lab Salud Chile v2 · Estudio BID 2025 · Datos: Coordinación BIM Métrico BIM Ltda.</p>
+<p class="footer">Fuente: Ficha de Documentación BIM Lab Salud Chile v3 · Estudio BID 2025 · Datos: Coordinación BIM Métrico BIM Ltda.</p>
 
 </div>
 
 <script>
-const BIM = '#0ea5e9', NOBIM = '#f97316', GRID = '#334155', MUTED = '#94a3b8', GREEN = '#22c55e';
+const BIM = '#0ea5e9', NOBIM = '#f97316', GRID = '#334155', MUTED = '#94a3b8', GREEN = '#22c55e', ACCENT = '#8b5cf6';
 Chart.defaults.color = MUTED;
 Chart.defaults.borderColor = GRID;
 Chart.defaults.font.family = "'Inter', system-ui, sans-serif";
@@ -251,20 +303,6 @@ function createCharts() {
     }
   });
 
-  charts.radar = new Chart(document.getElementById('chartRadar'), {
-    type: 'radar',
-    data: {
-      labels: ['Control de Plazo', 'Trazabilidad', 'Coordinación', 'Control Documental', 'Modelo As-Built', 'Iteración Modelo'],
-      datasets: [
-        { label: 'Con BIM', data: [75, 95, 85, 70, 90, 88], borderColor: BIM, backgroundColor: BIM + '40', pointBackgroundColor: BIM, borderWidth: 2 },
-        { label: 'Sin BIM', data: [35, 15, 25, 20, 5, 0], borderColor: NOBIM, backgroundColor: NOBIM + '25', pointBackgroundColor: NOBIM, borderWidth: 2 },
-      ]
-    },
-    options: { ...OPTS,
-      scales: { r: { beginAtZero: true, max: 100, ticks: { stepSize: 25, color: MUTED, backdropColor: 'transparent' }, grid: { color: GRID }, pointLabels: { color: MUTED, font: { size: 11 } }, angleLines: { color: GRID } } }
-    }
-  });
-
   charts.rfi = new Chart(document.getElementById('chartRFI'), {
     type: 'bar',
     data: {
@@ -276,6 +314,35 @@ function createCharts() {
     },
     options: { ...OPTS,
       scales: { y: { beginAtZero: true, grid: { color: GRID } }, x: { grid: { display: false } } }
+    }
+  });
+
+  // Quality radar
+  charts.calidad = new Chart(document.getElementById('chartCalidad'), {
+    type: 'radar',
+    data: {
+      labels: ['Envolvente\nFachada', 'Sistema\nClimatización', 'Cumplimiento\nGuía Diseño', 'Calificación\nISP', 'Terminaciones', 'Equipamiento\nConforme'],
+      datasets: [
+        { label: 'Iquique (BIM)', data: [95, 90, 95, 90, 85, 90], borderColor: BIM, backgroundColor: BIM + '30', pointBackgroundColor: BIM, borderWidth: 2 },
+        { label: 'Arica (Sin BIM)', data: [30, 25, 35, 30, 25, 20], borderColor: NOBIM, backgroundColor: NOBIM + '20', pointBackgroundColor: NOBIM, borderWidth: 2 },
+      ]
+    },
+    options: { ...OPTS,
+      scales: { r: { beginAtZero: true, max: 100, ticks: { stepSize: 25, color: MUTED, backdropColor: 'transparent' }, grid: { color: GRID }, pointLabels: { color: MUTED, font: { size: 10 } }, angleLines: { color: GRID } } }
+    }
+  });
+
+  charts.radar = new Chart(document.getElementById('chartRadar'), {
+    type: 'radar',
+    data: {
+      labels: ['Control de Plazo', 'Trazabilidad', 'Coordinación', 'Control Documental', 'Modelo As-Built', 'Iteración Modelo'],
+      datasets: [
+        { label: 'Con BIM', data: [75, 95, 85, 70, 90, 88], borderColor: BIM, backgroundColor: BIM + '40', pointBackgroundColor: BIM, borderWidth: 2 },
+        { label: 'Sin BIM', data: [35, 15, 25, 20, 5, 0], borderColor: NOBIM, backgroundColor: NOBIM + '25', pointBackgroundColor: NOBIM, borderWidth: 2 },
+      ]
+    },
+    options: { ...OPTS,
+      scales: { r: { beginAtZero: true, max: 100, ticks: { stepSize: 25, color: MUTED, backdropColor: 'transparent' }, grid: { color: GRID }, pointLabels: { color: MUTED, font: { size: 11 } }, angleLines: { color: GRID } } }
     }
   });
 
